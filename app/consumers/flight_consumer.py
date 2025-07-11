@@ -5,8 +5,7 @@ from app.db import async_session
 from app.services.seat_service import create_default_seats
 from app.utils.logger import logger
 
-RABBITMQ_URL = "amqp://ariel:rabbit123@10.0.1.30:5672"  # Ajusta según tu entorno
-
+RABBITMQ_URL = "amqp://ariel:rabbit123@10.0.1.30:5672"  
 async def consume_flight_created():
     try:
         connection = await aio_pika.connect_robust(RABBITMQ_URL)
