@@ -1,0 +1,40 @@
+# .github/workflows/deploy.yml
+name: CI/CD to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Loguear en Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Construir imagen y subir a Docker Hub
+      run: |
+        docker build -t arieling/ms-seat-availability .
+        docker push arieling/ms-seat-availability
+
+    - name: Acceder a EC2 y desplegar contenedor
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+          docker pull arieling/ms-seat-availability
+          docker stop ms-seat-availability || true
+          docker rm ms-seat-availability || true
+          docker run -d --name ms-seat-availability -p 8084:8084 --env-file .env arieling/ms-seat-availability
