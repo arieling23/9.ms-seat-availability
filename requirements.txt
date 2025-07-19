@@ -8,4 +8,4 @@ passlib[bcrypt]
 httpx
 uvicorn
 PyJWT
-
+aio-pika
