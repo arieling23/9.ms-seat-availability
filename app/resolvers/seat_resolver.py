@@ -61,7 +61,7 @@ class Mutation:
             raise Exception("Acceso no autorizado")
 
         async with async_session() as session:
-            # ✅ Validar duplicado
+           
             result = await session.execute(
                 select(Seat).where(Seat.flight_id == flight_id, Seat.seat_number == seat_number)
             )

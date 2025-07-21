@@ -1,8 +1,8 @@
 import httpx 
 from app.utils.logger import logger
 
-# Dirección del microservicio ms-flight-catalog
-FLIGHT_CATALOG_URL = "http://54.91.170.59:8082/api/flight-catalog"  # Cambia el puerto si es necesario
+
+FLIGHT_CATALOG_URL = "http://54.91.170.59:8082/api/flight-catalog"  
 
 async def flight_exists(flight_id: int) -> bool:
     query = """

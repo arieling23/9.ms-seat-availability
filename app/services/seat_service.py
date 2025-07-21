@@ -13,8 +13,8 @@ async def create_default_seats(session, flight_id: int):
     rows = ['A', 'B', 'C', 'D', 'E', 'F']
     seats = []
 
-    for row in range(1, 6):  # Filas 1-5
-        for letter in rows:  # Columnas A-F
+    for row in range(1, 6):  
+        for letter in rows:  
             seat_number = f"{row}{letter}"
             seats.append(
                 Seat(
